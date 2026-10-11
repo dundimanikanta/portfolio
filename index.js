@@ -29,7 +29,7 @@ function savedTheme() {
 function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    themeColor.setAttribute("content", theme === "dark" ? "#000000" : "#ffffff");
+    themeColor.setAttribute("content", theme === "dark" ? "#121212" : "#ffffff");
 }
 
 applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
@@ -122,6 +122,28 @@ function splitWords(el) {
 
 document.querySelectorAll(".split").forEach(splitWords);
 
+
+// Keep the name on one line. CSS sizes it to its column; if a fallback
+// font still draws it wider than the column, scale it down to fit.
+const heroTitle = document.querySelector(".hero-title");
+
+function fitHeroTitle() {
+    heroTitle.style.fontSize = "";
+    const available = heroTitle.clientWidth;
+    const needed = heroTitle.scrollWidth;
+    if (needed > available) {
+        const size = parseFloat(getComputedStyle(heroTitle).fontSize);
+        heroTitle.style.fontSize = Math.floor((size * available) / needed * 10) / 10 + "px";
+    }
+}
+
+fitHeroTitle();
+window.addEventListener("resize", fitHeroTitle);
+if (document.fonts) {
+    document.fonts.ready.then(fitHeroTitle);
+}
+
+
 // The hero animates on load rather than on scroll
 requestAnimationFrame(function () {
     requestAnimationFrame(function () {
@@ -160,6 +182,114 @@ if ("IntersectionObserver" in window) {
     revealItems.forEach(function (item) {
         item.classList.add("is-visible");
     });
+}
+
+
+// Section headings: each one starts centred and glides to the left as its
+// section scrolls in. Once it reaches the header it pins there, shrinking
+// into a compact bar, until its section ends and the next heading takes over.
+const sectionHeads = Array.from(document.querySelectorAll(".section-head"));
+const headsQuery = window.matchMedia("(prefers-reduced-motion: no-preference)");
+const SHRINK_DISTANCE = 120; // px of scrolling over which a pinned heading shrinks
+let headMetrics = [];
+let headsTicking = false;
+
+function measureHeads() {
+    headMetrics = sectionHeads.map(function (head) {
+        const section = head.parentElement;
+        const title = head.querySelector(".headline");
+        const container = head.querySelector(".container");
+        const box = getComputedStyle(container);
+        const contentWidth = container.clientWidth - parseFloat(box.paddingLeft) - parseFloat(box.paddingRight);
+        return {
+            head: head,
+            section: section,
+            title: title,
+            lead: head.nextElementSibling.querySelector(".section-lead"),
+            paddingTop: parseFloat(getComputedStyle(section).paddingTop),
+            centreOffset: Math.max(0, (contentWidth - title.offsetWidth) / 2),
+            height: title.offsetHeight,
+            fontSize: parseFloat(getComputedStyle(title).fontSize)
+        };
+    });
+}
+
+function setupHeads() {
+    const on = headsQuery.matches;
+    root.classList.toggle("pin-heads", on);
+    globalNav.classList.remove("has-pinned-head");
+    sectionHeads.forEach(function (head) {
+        const lead = head.nextElementSibling.querySelector(".section-lead");
+        head.querySelector(".headline").style.transform = "";
+        head.style.removeProperty("--bar-h");
+        head.style.removeProperty("--bar-o");
+        if (lead) {
+            lead.style.opacity = "";
+            lead.style.transform = "";
+        }
+    });
+    measureHeads();
+    updateHeads();
+}
+
+function updateHeads() {
+    headsTicking = false;
+    if (!headsQuery.matches) {
+        return;
+    }
+
+    const viewport = window.innerHeight;
+    const pinTop = globalNav.offsetHeight;
+    const small = window.innerWidth < 576;
+    const barHeight = small ? 48 : 56;
+    const compactFont = small ? 24 : 28;
+    // The glide finishes a little before the heading reaches the header
+    const glideEnd = pinTop + (viewport - pinTop) * 0.3;
+    let pinnedUnderHeader = false;
+
+    headMetrics.forEach(function (m) {
+        // Where the heading would be if it were not pinned
+        const naturalTop = m.section.getBoundingClientRect().top + m.paddingTop;
+        const glide = easeInOut(clamp01((viewport - naturalTop) / (viewport - glideEnd)));
+        const shrink = clamp01((pinTop - naturalTop) / SHRINK_DISTANCE);
+
+        const scale = 1 - shrink * (1 - Math.min(1, compactFont / m.fontSize));
+        const x = (1 - glide) * m.centreOffset;
+        const y = (shrink * (barHeight - m.height * scale)) / 2;
+
+        m.title.style.transform = "translate3d(" + x.toFixed(1) + "px, " + y.toFixed(1) + "px, 0) scale(" + scale.toFixed(4) + ")";
+        const currentBar = m.height + shrink * (barHeight - m.height);
+        m.head.style.setProperty("--bar-h", currentBar.toFixed(1) + "px");
+        m.head.style.setProperty("--bar-o", shrink.toFixed(3));
+
+        // Is this heading's bar sitting right under the header?
+        const headTop = m.head.getBoundingClientRect().top;
+        if (shrink > 0 && headTop <= pinTop + 0.5 && headTop + currentBar > pinTop) {
+            pinnedUnderHeader = true;
+        }
+
+        // The supporting line fades up as the heading arrives on the left
+        if (m.lead) {
+            const arrive = clamp01((glide - 0.6) / 0.4);
+            m.lead.style.opacity = arrive.toFixed(3);
+            m.lead.style.transform = "translate3d(0, " + ((1 - arrive) * 16).toFixed(1) + "px, 0)";
+        }
+    });
+
+    globalNav.classList.toggle("has-pinned-head", pinnedUnderHeader);
+}
+
+setupHeads();
+window.addEventListener("scroll", function () {
+    if (!headsTicking) {
+        headsTicking = true;
+        requestAnimationFrame(updateHeads);
+    }
+}, { passive: true });
+window.addEventListener("resize", setupHeads);
+headsQuery.addEventListener("change", setupHeads);
+if (document.fonts) {
+    document.fonts.ready.then(setupHeads);
 }
 
 
@@ -207,13 +337,15 @@ function updateStack() {
         return;
     }
 
+    // Where the stage pins: under the header, or under the "Projects." bar
+    const stageTop = parseFloat(getComputedStyle(stackStage).top) || globalNav.offsetHeight;
     const travel = stack.offsetHeight - stackStage.offsetHeight;
-    const progress = clamp01((globalNav.offsetHeight - stack.getBoundingClientRect().top) / travel);
+    const progress = clamp01((stageTop - stack.getBoundingClientRect().top) / travel);
     const segments = stackCards.length - 1;
     // How far a card must move to leave the screen completely, measured
     // from where the cards sit while pinned (not where they are now)
     const cardsBox = stackCards[0].parentElement;
-    const exitDistance = globalNav.offsetHeight + cardsBox.offsetTop + cardsBox.offsetHeight + 40;
+    const exitDistance = stageTop + cardsBox.offsetTop + cardsBox.offsetHeight + 40;
 
     stackCards.forEach(function (card, i) {
         // Each segment holds briefly, then moves the current card away

@@ -6,7 +6,7 @@
     <title>Dundi Manikanta Ganneni</title>
     <meta
       name="description"
-      content="Dundi Manikanta Ganneni - Software engineer building backend systems. MS Computer Science at UMass Amherst, previously at Accenture."
+      content="Dundi Manikanta Ganneni - Software Engineer. Master's student in Computer Science at UMass Amherst, previously a backend engineer at Accenture."
     />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#ffffff" />
@@ -37,10 +37,9 @@
 
     <!-- Navigation -->
     <header class="globalnav" id="globalnav">
-      <nav class="navbar navbar-expand-md" aria-label="Main">
+      <nav class="navbar navbar-expand-lg" aria-label="Main">
         <div class="container nav-inner">
-          <a class="nav-brand" href="#top">GDM</a>
-          <div class="nav-actions order-md-last">
+          <div class="nav-actions order-lg-last">
             <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
               <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" />
@@ -51,7 +50,7 @@
               </svg>
             </button>
             <button
-              class="nav-toggle d-md-none"
+              class="nav-toggle d-lg-none"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navlinks"
@@ -64,14 +63,13 @@
             </button>
           </div>
           <div class="collapse navbar-collapse" id="navlinks">
-            <ul class="navbar-nav ms-md-auto">
+            <ul class="navbar-nav ms-lg-auto">
               <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
               <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
               <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
               <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
               <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
-            <a class="btn-pill btn-pill-sm nav-cta" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
           </div>
         </div>
       </nav>
@@ -81,37 +79,36 @@
       <!-- Hero -->
       <section class="hero" id="top">
         <div class="container">
-          <img class="hero-photo" src="assets/profile.jpg" width="600" height="600" alt="Dundi Manikanta Ganneni" />
-          <h1 class="hero-title split">Dundi Manikanta Ganneni</h1>
-          <p class="hero-lead">Software engineer building backend systems and the libraries other teams depend on.</p>
-          <p class="hero-sub">MS Computer Science at UMass Amherst. Previously at Accenture.</p>
-          <div class="hero-ctas">
-            <a class="btn-pill" href="#projects">View projects</a>
-            <a class="btn-pill btn-pill-outline" href="resume.pdf" target="_blank" rel="noopener">Download résumé</a>
+          <div class="row align-items-center g-4">
+            <div class="col-lg-8 order-2 order-lg-1 hero-text">
+              <h1 class="hero-title split">Dundi Manikanta Ganneni</h1>
+              <p class="hero-lead">Software Engineer</p>
+              <p class="hero-intro">
+                I'm currently pursuing my Master's in Computer Science at UMass Amherst. Before joining UMass, I spent over
+                two years at Accenture as a backend engineer, building critical integration libraries with Java and
+                Spring Boot.
+              </p>
+              <div class="hero-ctas">
+                <a class="button" href="#projects">View projects</a>
+                <a class="button button-outline" href="https://drive.google.com/file/d/1MCFUGv2XambMrECQGPXPdxuL6l-sCGfJ/view?usp=sharing" target="_blank" rel="noopener">Download resume</a>
+              </div>
+            </div>
+            <div class="col-lg-4 order-1 order-lg-2">
+              <img class="hero-photo" src="assets/profile.jpg" width="600" height="600" alt="Dundi Manikanta Ganneni" />
+            </div>
           </div>
-          <ul class="highlights">
-            <li>
-              <strong class="split">2+ years</strong>
-              <span>Software Engineer at Accenture</span>
-            </li>
-            <li>
-              <strong class="split">10+ teams</strong>
-              <span>building on libraries I maintained</span>
-            </li>
-            <li>
-              <strong class="split">4.0 GPA</strong>
-              <span>MS CS at UMass Amherst</span>
-            </li>
-          </ul>
         </div>
       </section>
 
       <!-- Experience -->
       <section class="section section-alt" id="experience">
+        <div class="section-head">
+          <div class="container">
+            <h2 class="headline split">Experience<span class="dot">.</span></h2>
+          </div>
+        </div>
         <div class="container">
-          <h2 class="headline split">
-            Experience. <span class="muted">Over two years on a platform team at Accenture.</span>
-          </h2>
+          <p class="section-lead">Over two years on a platform team at Accenture.</p>
 
           <div class="role-card reveal">
             <div class="role-head">
@@ -125,44 +122,37 @@
               Developed and maintained the versioned Java and Spring Boot libraries and starter kits that 10+ product
               teams build on, released on a six-week cycle.
             </p>
-          </div>
 
-          <div class="row g-4">
-            <div class="col-md-6 reveal">
-              <article class="tile tile-hover">
-                <h3>DocumentStore</h3>
+            <p class="mini-label role-highlights-label">Highlights</p>
+            <div class="role-highlights">
+              <div class="role-item">
+                <h4>DocumentStore</h4>
                 <p>
                   Designed a database abstraction library over Amazon DocumentDB and Couchbase, adopted by 4+ services
                   to minimize application changes during future database migrations.
                 </p>
-              </article>
-            </div>
-            <div class="col-md-6 reveal">
-              <article class="tile tile-hover">
-                <h3>Vendor features, preserved</h3>
+              </div>
+              <div class="role-item">
+                <h4>Vendor features, preserved</h4>
                 <p>
                   Analyzed how product teams used DocumentDB, mapped those features to Couchbase equivalents, and added
                   MongoDB and N1QL native-query support.
                 </p>
-              </article>
-            </div>
-            <div class="col-md-6 reveal">
-              <article class="tile tile-hover">
-                <h3>No stored database passwords</h3>
+              </div>
+              <div class="role-item">
+                <h4>No stored database passwords</h4>
                 <p>
                   Implemented AWS IAM authentication for Amazon RDS for PostgreSQL and Amazon ElastiCache in the shared
                   libraries, behind a backward-compatible feature flag.
                 </p>
-              </article>
-            </div>
-            <div class="col-md-6 reveal">
-              <article class="tile tile-hover">
-                <h3>Verified releases</h3>
+              </div>
+              <div class="role-item">
+                <h4>Verified releases</h4>
                 <p>
                   Validated every release with component, regression and Gatling performance tests, and published
                   verified dependency versions through a Maven Bill of Materials.
                 </p>
-              </article>
+              </div>
             </div>
           </div>
         </div>
@@ -170,10 +160,13 @@
 
       <!-- Projects -->
       <section class="section" id="projects">
+        <div class="section-head">
+          <div class="container">
+            <h2 class="headline split">Projects<span class="dot">.</span></h2>
+          </div>
+        </div>
         <div class="container">
-          <h2 class="headline split">
-            Projects. <span class="muted">A few things I&rsquo;ve built.</span>
-          </h2>
+          <p class="section-lead">A few things I&rsquo;ve built.</p>
         </div>
 
         <!-- On large screens the cards pin and peel away one by one as you scroll -->
@@ -184,7 +177,6 @@
                 <article class="project project-dark stack-card reveal">
                   <div class="row g-4 g-lg-5 align-items-center">
                     <div class="col-lg-6">
-                      <p class="eyebrow eyebrow-new">Currently building</p>
                       <h3 class="project-title">CooperDB</h3>
                       <p class="project-stack">Go &middot; Log-structured key-value storage engine</p>
                       <p class="project-desc">
@@ -283,8 +275,13 @@
 
       <!-- Skills -->
       <section class="section section-alt" id="skills">
+        <div class="section-head">
+          <div class="container">
+            <h2 class="headline split">Skills<span class="dot">.</span></h2>
+          </div>
+        </div>
         <div class="container">
-          <h2 class="headline split">Skills. <span class="muted">What I build with.</span></h2>
+          <p class="section-lead">What I build with.</p>
           <div class="row g-4">
             <div class="col-md-6 reveal">
               <div class="tile skill-tile">
@@ -373,15 +370,23 @@
 
       <!-- Education -->
       <section class="section" id="education">
+        <div class="section-head">
+          <div class="container">
+            <h2 class="headline split">Education<span class="dot">.</span></h2>
+          </div>
+        </div>
         <div class="container">
-          <h2 class="headline split">Education.</h2>
+          <p class="section-lead">Where I studied.</p>
           <div class="row g-4">
             <div class="col-lg-6 reveal">
               <article class="tile">
                 <p class="eyebrow">January 2026 &ndash; December 2027 (expected)</p>
                 <h3>University of Massachusetts Amherst</h3>
                 <p class="tile-sub">Master of Science in Computer Science &middot; GPA 4.0/4.0</p>
-                <p>Machine Learning, Distributed &amp; Operating Systems, Information Retrieval, Neural Networks</p>
+                <p class="coursework">
+                  <span class="mini-label">Coursework</span>
+                  Machine Learning, Distributed &amp; Operating Systems, Information Retrieval, Neural Networks
+                </p>
               </article>
             </div>
             <div class="col-lg-6 reveal">
@@ -391,24 +396,21 @@
                 <p class="tile-sub">B.Tech in Electronics and Communication Engineering &middot; GPA 8.66/10</p>
               </article>
             </div>
-            <div class="col-12 reveal">
-              <article class="tile">
-                <p class="eyebrow">Publication &middot; Springer, 2025</p>
-                <h3>A Novel 2&times;3 Array Antenna for Broadband 5G Communication and Efficient Wireless Applications</h3>
-                <p class="tile-sub">Sadhana &ndash; Academy Proceedings in Engineering Sciences</p>
-                <a class="link-more" href="https://doi.org/10.1007/s12046-025-02887-8" target="_blank" rel="noopener"
-                  >Read the paper</a
-                >
-              </article>
-            </div>
           </div>
+          <p class="side-note reveal">
+            <span class="mini-label">Publication</span>
+            <a href="https://doi.org/10.1007/s12046-025-02887-8" target="_blank" rel="noopener"
+              >A Novel 2&times;3 Array Antenna for Broadband 5G Communication and Efficient Wireless Applications</a
+            >
+            <span>Sadhana, Springer &middot; 2025</span>
+          </p>
         </div>
       </section>
 
       <!-- Contact -->
       <section class="section section-dark" id="contact">
         <div class="container text-center">
-          <h2 class="headline headline-xl split">Let's talk.</h2>
+          <h2 class="headline headline-xl split">Let's talk<span class="dot">.</span></h2>
           <p class="contact-sub reveal">Email is the fastest way to reach me.</p>
           <p class="reveal">
             <a class="contact-email" href="mailto:manikantaganneni@gmail.com">manikantaganneni@gmail.com</a>
@@ -422,7 +424,7 @@
             <li>
               <a class="link-more" href="https://github.com/dundimanikanta" target="_blank" rel="noopener">GitHub</a>
             </li>
-            <li><a class="link-more" href="resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+            <li><a class="link-more" href="https://drive.google.com/file/d/1MCFUGv2XambMrECQGPXPdxuL6l-sCGfJ/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
           </ul>
         </div>
       </section>
